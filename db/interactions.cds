@@ -8,7 +8,7 @@ type LText : String(1024);
 
 entity Interactions_Header {
   key ID : Integer;
-  @Common.Label: 'Numbers'
+   @Common.Label:'numbers'
   ITEMS  : Composition of many Interactions_Items on ITEMS.INTHeader = $self;
   PARTNER  : BusinessKey;
   LOG_DATE  : SDate;
@@ -18,8 +18,7 @@ entity Interactions_Header {
 
 
 entity Interactions_Items {
-
-    
+    @Common.Label:'numbers'
     key INTHeader : association to Interactions_Header;
     key TEXT_ID : BusinessKey;
         LANGU   : String(2);
