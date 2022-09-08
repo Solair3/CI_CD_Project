@@ -14,8 +14,11 @@ entity Interactions_Header {
   BPCOUNTRY : Country;
 
 };
+
+
 entity Interactions_Items {
 
+    @Common.Label: 'Numbers'
     key INTHeader : association to Interactions_Header;
     key TEXT_ID : BusinessKey;
         LANGU   : String(2);
