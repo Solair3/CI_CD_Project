@@ -26,6 +26,7 @@
       "https://applicationstudio.cloud.sap/",
 
       "https://*.eu20.hana.ondemand.com/**",
+      "https://*.eu10.hana.ondemand.com/**",
 
       "https://*.us10-001.hana.ondemand.com/**",
 
