@@ -62,7 +62,7 @@
       ]
     },
     "requires": {
-      "db": {
+      "[production].db": {
         "kind": "hana-cloud"
       },
       "uaa": {
