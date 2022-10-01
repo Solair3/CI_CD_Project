@@ -62,8 +62,13 @@
       ]
     },
     "requires": {
-      "[production].db": {
-        "kind": "hana-cloud"
+      "db": {
+        "[development]": {
+            "kind": "sql"
+        },
+        "[production]": {
+            "kind": "hana-cloud"
+        }
       },
       "uaa": {
         "kind": "xsuaa"
