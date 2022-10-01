@@ -23,7 +23,7 @@
     "undeploy": "cf undeploy ci_cd_showcase --delete-services --delete-service-keys --delete-service-brokers",
     "build": "rimraf resources mta_archives && mbt build --mtar archive",
     "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
-    "test": "mocha"
+    "test": "mocha --recursive"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
