@@ -1,5 +1,5 @@
 var expect = require('chai').expect
-const cds = require ('@sap/cds')
+const cds = require ('@sap/cds/lib')
 
 describe('Array', function () {
   describe('#indexOf()', function () {
