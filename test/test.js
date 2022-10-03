@@ -1,5 +1,7 @@
 var expect = require('chai').expect
 const cds = require ('@sap/cds/lib')
+const impl = require('../srv/interaction_srv.js')
+
 
 describe('Array', function () {
   describe('#indexOf()', function () {
@@ -9,16 +11,30 @@ describe('Array', function () {
   })
 })
 
-describe('Interaction service handler', function () {
+describe('Interaction service', function () {
 
     const { GET, axios } = cds.test()
     axios.defaults.auth = { username: 'any', password: 'any' }
 
-    describe('Items', function() {
+    describe('service', function() {
         it('should return data', async function() {
             const {data, status} = await GET`/catalog/Interactions_Header/1`
             expect(status).to.eql(200)
-            expect(data).to.contain({"ID":1})
+            expect(data).to.contain({'ID':1})
+        })
+    })
+
+    describe('handler', function() {
+        it('should return LOGTEXT with language and time now', function() {
+            const each = {
+                'LOGTEXT': 'Some text.',
+                'LANGU': 'GE'
+            }
+            dateTime = '01/1/2000, 00:00:00 AM'
+
+            ret = impl.modifyLOGTEXT(each, dateTime)
+
+            expect(ret.LOGTEXT).to.eql('GE --- Some text. --- 01/1/2000, 00:00:00 AM')
         })
     })
 })
