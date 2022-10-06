@@ -1,4 +1,8 @@
-var expect = require('chai').expect
+const chai = require('chai')
+const expect = chai.expect
+const spies = require('chai-spies')
+chai.use(spies)
+const spy = chai.spy
 const cds = require ('@sap/cds/lib')
 const impl = require('../srv/interaction_srv.js')
 
@@ -25,16 +29,21 @@ describe('Interaction service', function () {
     })
 
     describe('handler', function() {
+        afterAll(function() {
+            chai.spy.restore()
+        })
+
         it('should return LOGTEXT with language and time now', function() {
             const each = {
                 'LOGTEXT': 'Some text.',
                 'LANGU': 'GE'
             }
             dateTime = '01/1/2000, 00:00:00 AM'
+            spy.on(impl, 'testF', () => 'test')
 
             ret = impl.modifyLOGTEXT(each, dateTime)
 
-            expect(ret.LOGTEXT).to.eql('GE --- Some text. --- 01/1/2000, 00:00:00 AM')
+            expect(ret.LOGTEXT).to.eql('GE --- Some text. --- 01/1/2000, 00:00:00 AM --- test')
         })
     })
 })

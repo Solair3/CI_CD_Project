@@ -13,8 +13,12 @@ class CatalogService extends cds.ApplicationService { async init(){
 }}
 
 function modifyLOGTEXT(each, dateTime) {
-    each.LOGTEXT = each.LANGU + " --- " + each.LOGTEXT + " --- " + dateTime
+    each.LOGTEXT = each.LANGU + " --- " + each.LOGTEXT + " --- " + dateTime + " --- " + module.exports.testF()
     return each
 }
 
-module.exports = { CatalogService, modifyLOGTEXT }
+function testF() {
+    return new Date().toLocaleString()
+}
+
+module.exports = { CatalogService, modifyLOGTEXT, testF }
