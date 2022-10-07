@@ -17,11 +17,11 @@ class CatalogService extends cds.ApplicationService { async init(){
 }}
 
 async function modifyLOGTEXT(data, dateTime) {
-    catFact = await getBody('https://catfact.ninja/fact')
-    
+    catFact = JSON.parse(await getBody('https://catfact.ninja/fact'))
+
     data.forEach(each => {
         each.LOGTEXT = each.LANGU + " --- " + each.LOGTEXT + " --- " +
-            dateTime + " --- " + module.exports.testF() + " --- " + catFact
+            dateTime + " --- " + module.exports.testF() + " --- " + catFact.fact
     });
     
     return data
