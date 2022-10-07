@@ -34,14 +34,14 @@ describe('Interaction service', function () {
         })
 
         it('should return LOGTEXT with language and time now', function() {
-            const each = {
+            const data = [{
                 'LOGTEXT': 'Some text.',
                 'LANGU': 'GE'
-            }
+            }]
             dateTime = '01/1/2000, 00:00:00 AM'
             spy.on(impl, 'testF', () => 'test')
 
-            ret = impl.modifyLOGTEXT(each, dateTime)
+            ret = impl.modifyLOGTEXT(data, dateTime)
 
             expect(ret.LOGTEXT).to.eql('GE --- Some text. --- 01/1/2000, 00:00:00 AM --- test')
         })
