@@ -5,7 +5,11 @@ chai.use(spies)
 const spy = chai.spy
 const cds = require ('@sap/cds/lib')
 const impl = require('../srv/interaction_srv.js')
+const serverMSW = require('../mocks/server.js')
 
+before('MSW: Establish API mocking before all tests.', () => serverMSW.listen({onUnhandledRequest: 'bypass'}))
+afterEach('MSW: Reset any request handlers that we may add during the tests', () => serverMSW.resetHandlers())
+after('MSW: Clean up after the tests are finished.', () => serverMSW.close())
 
 describe('Array', function () {
   describe('#indexOf()', function () {
@@ -29,21 +33,21 @@ describe('Interaction service', function () {
     })
 
     describe('handler', function() {
-        afterAll(function() {
+        afterEach(function() {
             chai.spy.restore()
         })
 
-        it('should return LOGTEXT with language and time now', function() {
+        it('modifyLOGTEXT should change data', async function() {
             const data = [{
                 'LOGTEXT': 'Some text.',
                 'LANGU': 'GE'
             }]
             dateTime = '01/1/2000, 00:00:00 AM'
-            spy.on(impl, 'testF', () => 'test')
+            spy.on(impl, 'testF', () => 'testTime')
 
-            ret = impl.modifyLOGTEXT(data, dateTime)
+            ret = await impl.modifyLOGTEXT(data, dateTime)
 
-            expect(ret.LOGTEXT).to.eql('GE --- Some text. --- 01/1/2000, 00:00:00 AM --- test')
+            expect(ret[0].LOGTEXT).to.eql('GE --- Some text. --- 01/1/2000, 00:00:00 AM --- testTime --- testFact')
         })
     })
 })

@@ -91,6 +91,7 @@
     "chai-spies": "^1.0.0",
     "chai-subset": "^1.6.0",
     "mocha": "^10.0.0",
+    "msw": "^0.47.4",
     "rimraf": "^3.0.2",
     "sqlite3": "latest"
   }
