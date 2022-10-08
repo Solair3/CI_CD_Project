@@ -28,7 +28,11 @@ async function modifyLOGTEXT(data, dateTime) {
 }
 
 function testF() {
-    return new Date().toLocaleString()
+    return getRandomInt(1000)
+}
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max)
 }
 
 async function getBody(url) {

@@ -43,11 +43,11 @@ describe('Interaction service', function () {
                 'LANGU': 'GE'
             }]
             dateTime = '01/1/2000, 00:00:00 AM'
-            spy.on(impl, 'testF', () => 'testTime')
+            spy.on(impl, 'testF', () => 0)
 
             ret = await impl.modifyLOGTEXT(data, dateTime)
 
-            expect(ret[0].LOGTEXT).to.eql('GE --- Some text. --- 01/1/2000, 00:00:00 AM --- testTime --- testFact')
+            expect(ret[0].LOGTEXT).to.eql('GE --- Some text. --- 01/1/2000, 00:00:00 AM --- 0 --- testCatFact')
         })
     })
 })
