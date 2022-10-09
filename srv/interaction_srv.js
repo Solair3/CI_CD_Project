@@ -21,13 +21,13 @@ async function modifyLOGTEXT(data, dateTime) {
 
     data.forEach(each => {
         each.LOGTEXT = each.LANGU + " --- " + each.LOGTEXT + " --- " +
-            dateTime + " --- " + module.exports.testF() + " --- " + catFact.fact
+            dateTime + " --- " + module.exports.randomIntFrom0to999() + " --- " + catFact.fact
     });
     
     return data
 }
 
-function testF() {
+function randomIntFrom0to999() {
     return getRandomInt(1000)
 }
 
@@ -52,4 +52,4 @@ async function getBody(url) {
     })
 }
 
-module.exports = { CatalogService, modifyLOGTEXT, testF }
+module.exports = { CatalogService, modifyLOGTEXT, randomIntFrom0to999 }

@@ -43,11 +43,17 @@ describe('Interaction service', function () {
                 'LANGU': 'GE'
             }]
             dateTime = '01/1/2000, 00:00:00 AM'
-            spy.on(impl, 'testF', () => 0)
+            spy.on(impl, 'randomIntFrom0to999', () => 0)
 
             ret = await impl.modifyLOGTEXT(data, dateTime)
 
             expect(ret[0].LOGTEXT).to.eql('GE --- Some text. --- 01/1/2000, 00:00:00 AM --- 0 --- testCatFact')
+        })
+
+        it('randomIntFrom0to999 should return int from 0 to 999', function() {
+            a = impl.randomIntFrom0to999()
+
+            expect(a).to.be.within(0, 999)
         })
     })
 })
