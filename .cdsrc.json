@@ -1,1 +1,16 @@
-{}
+{
+    "auth": {
+        "passport": {
+            "strategy": "mock",
+            "users": {
+                "user1": {
+                    "password": "a",
+                    "ID": "a",
+                    "roles": [
+                        "authenticated-user"
+                    ]
+                }
+            }
+        }
+    }
+}
