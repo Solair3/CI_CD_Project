@@ -12,8 +12,6 @@ class CatalogService extends cds.ApplicationService { async init(){
         let dateTime = new Date().toLocaleString()
         data = await modifyLOGTEXT(data, dateTime)
 
-        console.log("xsenv.readServices(): " + JSON.stringify(xsenv.readServices()))
-
         return data
     })
 
