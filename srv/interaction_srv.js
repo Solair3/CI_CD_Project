@@ -21,12 +21,21 @@ class CatalogService extends cds.ApplicationService { async init(){
 async function modifyLOGTEXT(data, dateTime) {
     catFact = JSON.parse(await getBody('https://catfact.ninja/fact'))
 
-    data.forEach(each => {
+    if (Array.isArray(data)) {
+        data.forEach(each => {
+            each = modifyOne(each, dateTime)
+        }); 
+    } else {
+        data = modifyOne(data, dateTime)
+    }
+    return data
+
+    function modifyOne(each, dateTime) {
         each.LOGTEXT = each.LANGU + " --- " + each.LOGTEXT + " --- " +
             dateTime + " --- " + module.exports.randomIntFrom0to999() + " --- " + catFact.fact
-    });
-    
-    return data
+        
+        return each
+    }
 }
 
 function randomIntFrom0to999() {
