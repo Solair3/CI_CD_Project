@@ -9,6 +9,7 @@ modules:
     requires:
       - name: ci_cd_showcase-db
       - name: uaa_ci_cd_showcase
+      - name: ci_cd_showcase-destination-service
     provides:
       - name: srv-api
         properties:
