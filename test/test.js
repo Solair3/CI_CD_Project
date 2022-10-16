@@ -19,41 +19,47 @@ describe('Array', function () {
   })
 })
 
-describe('Interaction service', function () {
+describe('CDS services', function () {
 
     const { GET, axios } = cds.test()
     axios.defaults.auth = { username: 'any', password: 'any' }
 
-    describe('service', function() {
+    describe('CatalogService', function() {
         it('should return data', async function() {
             const {data, status} = await GET`/catalog/Interactions_Header/1`
             expect(status).to.eql(200)
             expect(data).to.contain({'ID':1})
         })
+
+        describe('handler of service', function() {
+            afterEach(function() {
+                chai.spy.restore()
+            })
+    
+            describe('modifyLOGTEXT()', function() {
+                it('should change data properly', async function() {
+                    const data = [{
+                        'LOGTEXT': 'Some text.',
+                        'LANGU': 'GE'
+                    }]
+                    dateTime = '01/1/2000, 00:00:00 AM'
+                    spy.on(impl, 'randomIntFrom0to999', () => 0)
+        
+                    ret = await impl.modifyLOGTEXT(data, dateTime)
+        
+                    expect(ret[0].LOGTEXT).to.eql('GE --- Some text. --- Time now: 01/1/2000, 00:00:00 AM --- Random number: 0 --- Random fact about cats: testCatFact')
+                })
+            })
+    
+            describe('randomIntFrom0to999()', function() {
+                it('should return int from 0 to 999', function() {
+                    a = impl.randomIntFrom0to999()
+        
+                    expect(a).to.be.within(0, 999)
+                })
+            })
+        })
     })
 
-    describe('handler', function() {
-        afterEach(function() {
-            chai.spy.restore()
-        })
-
-        it('modifyLOGTEXT should change data', async function() {
-            const data = [{
-                'LOGTEXT': 'Some text.',
-                'LANGU': 'GE'
-            }]
-            dateTime = '01/1/2000, 00:00:00 AM'
-            spy.on(impl, 'randomIntFrom0to999', () => 0)
-
-            ret = await impl.modifyLOGTEXT(data, dateTime)
-
-            expect(ret[0].LOGTEXT).to.eql('GE --- Some text. --- 01/1/2000, 00:00:00 AM --- 0 --- testCatFact')
-        })
-
-        it('randomIntFrom0to999 should return int from 0 to 999', function() {
-            a = impl.randomIntFrom0to999()
-
-            expect(a).to.be.within(0, 999)
-        })
-    })
+    
 })

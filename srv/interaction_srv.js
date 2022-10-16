@@ -23,16 +23,16 @@ async function modifyLOGTEXT(data, dateTime) {
 
     if (Array.isArray(data)) {
         data.forEach(each => {
-            each = modifyOne(each, dateTime)
+            each = modifyOneItem(each, dateTime)
         }); 
     } else {
-        data = modifyOne(data, dateTime)
+        data = modifyOneItem(data, dateTime)
     }
     return data
 
-    function modifyOne(each, dateTime) {
-        each.LOGTEXT = each.LANGU + " --- " + each.LOGTEXT + " --- " +
-            dateTime + " --- " + module.exports.randomIntFrom0to999() + " --- " + catFact.fact
+    function modifyOneItem(each, dateTime) {
+        each.LOGTEXT = each.LANGU + " --- " + each.LOGTEXT + " --- Time now: " +
+            dateTime + " --- Random number: " + module.exports.randomIntFrom0to999() + " --- Random fact about cats: " + catFact.fact
         
         return each
     }
