@@ -18,45 +18,25 @@
     }
   ],
   "oauth2-configuration": {
-
     "redirect-uris": [
-
       "https://*.hana.ondemand.com/**",
-
       "https://applicationstudio.cloud.sap/",
-
       "https://*.eu20.hana.ondemand.com/**",
       "https://*.eu10.hana.ondemand.com/**",
-
       "https://*.us10-001.hana.ondemand.com/**",
-
       "https://*.us10.hana.ondemand.com/**",
-
       "https://*.applicationstudio.cloud.sap/**",
-
       "http*://*.${default-domain}/**",
-
       "http*://*.localhost:5000/**",
-
       "http*://*.localhost:5001/**",
-
       "http://localhost:5001/login/callback",
-
       "http://localhost:5000/login/callback/**",
-
       "http://localhost:5001/login/callback/**",
-
       "http://localhost:5000/login/callback",
-
       "http*://*.localhost:4004/**",
-
       "https://*.cluezo.de/**"
-
     ],
-
     "token-validity": 43200,
-
     "refresh-token-validity": 1800
-
   }
 }

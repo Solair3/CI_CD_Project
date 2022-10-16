@@ -2,12 +2,11 @@
   "authenticationMethod": "none",
   "routes": [
     {
-        "source": "/catalog/(.*)",
-        "destination": "hana-app-api",
-        "csrfProtection": true,
-        "authenticationType": "xsuaa"
+      "source": "/catalog/(.*)",
+      "destination": "hana-app-api",
+      "csrfProtection": true,
+      "authenticationType": "xsuaa"
     },
-
     {
       "source": "/catalog/(.*)",
       "target": "$1",

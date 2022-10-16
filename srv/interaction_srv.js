@@ -3,20 +3,22 @@ const xsenv = require('@sap/xsenv')
 xsenv.loadEnv()
 var request = require('request')
 
-class CatalogService extends cds.ApplicationService { async init(){
-    const { Interactions_Items } = cds.entities
+class CatalogService extends cds.ApplicationService {
+    async init() {
+        const { Interactions_Items } = cds.entities
 
-    this.on("READ", "Interactions_Items", async (req, next) => {
-        let data = await next()
-    
-        let dateTime = new Date().toLocaleString()
-        data = await modifyLOGTEXT(data, dateTime)
+        this.on("READ", "Interactions_Items", async (req, next) => {
+            let data = await next()
 
-        return data
-    })
+            let dateTime = new Date().toLocaleString()
+            data = await modifyLOGTEXT(data, dateTime)
 
-    await super.init()
-}}
+            return data
+        })
+
+        await super.init()
+    }
+}
 
 async function modifyLOGTEXT(data, dateTime) {
     catFact = JSON.parse(await getBody('https://catfact.ninja/fact'))
@@ -24,7 +26,7 @@ async function modifyLOGTEXT(data, dateTime) {
     if (Array.isArray(data)) {
         data.forEach(each => {
             each = modifyOneItem(each, dateTime)
-        }); 
+        });
     } else {
         data = modifyOneItem(data, dateTime)
     }
@@ -32,8 +34,9 @@ async function modifyLOGTEXT(data, dateTime) {
 
     function modifyOneItem(each, dateTime) {
         each.LOGTEXT = each.LANGU + " --- " + each.LOGTEXT + " --- Time now: " +
-            dateTime + " --- Random number: " + module.exports.randomIntFrom0to999() + " --- Random fact about cats: " + catFact.fact
-        
+            dateTime + " --- Random number: " + module.exports.randomIntFrom0to999() +
+            " --- Random fact about cats: " + catFact.fact
+
         return each
     }
 }
@@ -52,13 +55,13 @@ async function getBody(url) {
         method: 'GET',
     };
 
-    return new Promise(function(resolve, reject) {
-        request.get(options, function(err, resp, body) {
-        if (err) {
-            reject(err);
-        } else {
-            resolve(body);
-        }
+    return new Promise(function (resolve, reject) {
+        request.get(options, function (err, resp, body) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(body);
+            }
         })
     })
 }
