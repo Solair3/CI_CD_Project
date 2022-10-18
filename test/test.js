@@ -67,6 +67,9 @@ describe('CDS services', function () {
     })
 
     describe('Service which connects to an external service', function () {
+        // Now let's pretend that service cannot (or we don't want it to) connect to 
+        // an external service during tests.
+        // We will spy on cds.connect.to to mock external service when it is being connected to
         (function() {
             var cds_connect_to = implNorthWind.cds.connect.to
             chai.spy.on(implNorthWind.cds.connect, 'to', async function (nameOfModule) {
@@ -84,17 +87,9 @@ describe('CDS services', function () {
             chai.spy.restore()
         })
 
-        it.skip('should return data', async function () {
-            const { data, status } = await GET`/north-wind-catalog/Products/0`
-            expect(status).to.eql(200)
-            expect(data).to.contain({ ID: 0, Name: 'Bread' })
-        })
-
-        // Now let's pretend that service cannot (or we don't want it to) connect to 
-        // an external service during tests.
-        // We will mock external service.
-        it('should return data. Same test as above but with mocked external service', async function () {
-            // expect(implNorthWind.cds.connect.to).to.be.spy; // Doesn't seem to work although it is a spy as I understand
+        it('should return data', async function () {
+            // expect(implNorthWind.cds.connect.to).to.be.spy; 
+            // Doesn't seem to work although it is a spy as I understand
 
             const { data, status } = await GET`/north-wind-catalog/Products/0`
 
