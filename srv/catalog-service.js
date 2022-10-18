@@ -1,10 +1,16 @@
 const cds = require('@sap/cds');
 
-module.exports = cds.service.impl(async function () {
-    const { Products } = this.entities;
-    const service = await cds.connect.to('NorthWind');
+module.exports = { cds }
 
-    this.on('READ', Products, request => {
-        return service.tx(request).run(request.query);
-    });
-});
+class NorthWindCatalogService extends module.exports.cds.ApplicationService { 
+    async init() {
+        const { Products } = this.entities
+        const service = await module.exports.cds.connect.to('NorthWind')
+
+        this.on('READ', Products, request => {
+            return service.tx(request).run(request.query)
+        });
+    }
+}
+
+module.exports = { NorthWindCatalogService, ...module.exports }
