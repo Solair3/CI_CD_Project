@@ -18,52 +18,52 @@ class CatalogService extends cds.ApplicationService {
 
         await super.init()
     }
-}
 
-async function modifyLOGTEXT(data, dateTime) {
-    catFact = JSON.parse(await getBody('https://catfact.ninja/fact'))
-
-    if (Array.isArray(data)) {
-        data.forEach(each => {
-            each = modifyOneItem(each, dateTime)
-        });
-    } else {
-        data = modifyOneItem(data, dateTime)
+    async modifyLOGTEXT(data, dateTime) {
+        catFact = JSON.parse(await this.getBody('https://catfact.ninja/fact'))
+    
+        if (Array.isArray(data)) {
+            data.forEach(each => {
+                each = this.modifyOneItem(each, dateTime)
+            });
+        } else {
+            data = this.modifyOneItem(data, dateTime)
+        }
+        return data
     }
-    return data
 
-    function modifyOneItem(each, dateTime) {
+    modifyOneItem(each, dateTime) {
         each.LOGTEXT = each.LANGU + " --- " + each.LOGTEXT + " --- Time now: " +
-            dateTime + " --- Random number: " + module.exports.randomIntFrom0to999() +
+            dateTime + " --- Random number: " + this.randomIntFrom0to999() +
             " --- Random fact about cats: " + catFact.fact
 
         return each
     }
-}
-
-function randomIntFrom0to999() {
-    return getRandomInt(1000)
-}
-
-function getRandomInt(max) {
-    return Math.floor(Math.random() * max)
-}
-
-async function getBody(url) {
-    const options = {
-        url: url,
-        method: 'GET',
-    };
-
-    return new Promise(function (resolve, reject) {
-        request.get(options, function (err, resp, body) {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(body);
-            }
+    
+    randomIntFrom0to999() {
+        return this.getRandomInt(1000)
+    }
+    
+    getRandomInt(max) {
+        return Math.floor(Math.random() * max)
+    }
+    
+    async getBody(url) {
+        const options = {
+            url: url,
+            method: 'GET',
+        };
+    
+        return new Promise(function (resolve, reject) {
+            request.get(options, function (err, resp, body) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(body);
+                }
+            })
         })
-    })
+    }
 }
 
-module.exports = { CatalogService, modifyLOGTEXT, randomIntFrom0to999 }
+module.exports = { CatalogService }

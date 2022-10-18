@@ -3,8 +3,7 @@ const expect = chai.expect
 const spies = require('chai-spies')
 chai.use(spies)
 const cds = require('@sap/cds/lib')
-const impl = require('../srv/interaction_srv.js')
-const implNorthWind = require('../srv/catalog-service.js')
+const CatalogService = require('../srv/interaction_srv.js').CatalogService.prototype
 const serverMSW = require('../mocks/server.js')
 
 before('MSW: Establish API mocking before all tests.', () => serverMSW.listen({ onUnhandledRequest: 'bypass' }))
@@ -40,9 +39,9 @@ describe('CDS services', function () {
                         'LANGU': 'GE'
                     }]
                     dateTime = '01/1/2000, 00:00:00 AM'
-                    chai.spy.on(impl, 'randomIntFrom0to999', () => 0)
+                    chai.spy.on(CatalogService, 'randomIntFrom0to999', () => 0)
 
-                    ret = await impl.modifyLOGTEXT(data, dateTime)
+                    ret = await CatalogService.modifyLOGTEXT(data, dateTime)
 
                     expect(ret[0].LOGTEXT).to.eql('GE --- Some text. --- Time now: 01/1/2000, 00:00:00 AM --- Random number: 0 --- Random fact about cats: testCatFact')
                 })
@@ -50,7 +49,7 @@ describe('CDS services', function () {
 
             describe('randomIntFrom0to999()', function () {
                 it('should return int from 0 to 999', function () {
-                    a = impl.randomIntFrom0to999()
+                    a = CatalogService.randomIntFrom0to999()
 
                     expect(a).to.be.within(0, 999)
                 })
@@ -63,8 +62,8 @@ describe('CDS services', function () {
         // an external service during tests.
         // We will spy on cds.connect.to to mock external service when it is being connected to
         (function() {
-            var cds_connect_to = implNorthWind.cds.connect.to
-            chai.spy.on(implNorthWind.cds.connect, 'to', async function (nameOfModule) {
+            var cds_connect_to = cds.connect.to
+            chai.spy.on(cds.connect, 'to', async function (nameOfModule) {
                 if (nameOfModule === 'NorthWind') {
                     return require('../mocks/NorthWind_mock.js')
                 } else {
@@ -74,7 +73,7 @@ describe('CDS services', function () {
         })()
 
         it('should return data', async function () {
-            // expect(implNorthWind.cds.connect.to).to.be.spy; 
+            // expect(implementationOfNorthWindService.cds.connect.to).to.be.spy; 
             // Doesn't seem to work although it is a spy as I understand
 
             const { data, status } = await GET`/north-wind-catalog/Products/0`
