@@ -27,7 +27,8 @@
     "undeploy": "cf undeploy ci_cd_showcase --delete-services --delete-service-keys --delete-service-brokers",
     "build": "rimraf resources mta_archives && mbt build --mtar archive",
     "deploy": "cf deploy mta_archives/archive.mtar --retries 0",
-    "test": "mocha --recursive",
+    "test": "mocha",
+    "test-w": "mocha --watch",
     "bd": "npm run test && npm run build && npm run deploy"
   },
   "eslintConfig": {
