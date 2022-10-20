@@ -23,9 +23,11 @@ class CatalogService extends cds.ApplicationService {
         catFact = JSON.parse(await this.getBody('https://catfact.ninja/fact'))
     
         if (Array.isArray(data)) {
-            data.forEach(each => {
-                each = this.modifyOneItem(each, dateTime)
-            });
+            await Promise.all(
+                data.map(async (each) => {
+                    await this.modifyOneItem(each, dateTime)
+                })
+            )
         } else {
             data = this.modifyOneItem(data, dateTime)
         }
