@@ -54,9 +54,11 @@ describe('CDS services', async function () {
                     chai.spy.on(CatalogService.prototype, 'randomIntFrom0to999', () => 0)
                     let srv = new CatalogService()
                     await srv.init()
+                    const fake = sinon.replace(srv.db, "run", sinon.fake.returns({LOG_DATE:"2022-01-01T00:00:00Z"}))
 
                     ret = await CatalogService.prototype.modifyLOGTEXT.apply(srv, [data, dateTime])
 
+                    expect(fake).to.have.been.calledOnce
                     expect(ret[0].LOGTEXT).to.eql('GE --- 2022-01-01T00:00:00Z --- Some text. --- Time now: 01/1/2000, 00:00:00 AM --- Random number: 0 --- Random fact about cats: testCatFact')
                 })
             })
