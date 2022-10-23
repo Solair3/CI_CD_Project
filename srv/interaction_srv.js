@@ -17,23 +17,7 @@ class CatalogService extends cds.ApplicationService {
             return data
         })
 
-        console.log("1: ", Object.getOwnPropertyNames(this))
-
-        let keys = []
-        for (var key in this) {
-            keys.push(key)
-        }
-        console.log("2: ", keys)
-
-        // bind all methods to this object
-        /*Object.getOwnPropertyNames(this).forEach((each) => {
-            if (typeof this[each] == 'function') {
-                console.log("binding ", each)
-                this[each] = this[each].bind(this);
-            }
-        })*/
-        //this.modifyLOGTEXT = this.modifyLOGTEXT.bind(this);
-        //this.modifyOneItem = this.modifyOneItem.bind(this);
+        await super.init()
     }
 
     async modifyLOGTEXT(data, dateTime) {
