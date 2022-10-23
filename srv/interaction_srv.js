@@ -11,7 +11,7 @@ class CatalogService extends cds.ApplicationService {
             let data = await next()
 
             let dateTime = new Date().toLocaleString()
-            data = await modifyLOGTEXT(data, dateTime)
+            data = await this.modifyLOGTEXT(data, dateTime)
 
             return data
         })
@@ -20,7 +20,7 @@ class CatalogService extends cds.ApplicationService {
     }
 
     async modifyLOGTEXT(data, dateTime) {
-        catFact = JSON.parse(await this.getBody('https://catfact.ninja/fact'))
+        this.catFact = JSON.parse(await this.getBody('https://catfact.ninja/fact'))
     
         if (Array.isArray(data)) {
             data.forEach(each => {
@@ -35,7 +35,7 @@ class CatalogService extends cds.ApplicationService {
     modifyOneItem(each, dateTime) {
         each.LOGTEXT = each.LANGU + " --- " + each.LOGTEXT + " --- Time now: " +
             dateTime + " --- Random number: " + this.randomIntFrom0to999() +
-            " --- Random fact about cats: " + catFact.fact
+            " --- Random fact about cats: " + this.catFact.fact
 
         return each
     }
