@@ -46,20 +46,30 @@ describe('CDS services', async function () {
         describe('handler of service', function () {
             describe('modifyLOGTEXT()', function () {
                 it('should change data properly', async function () {
+                    let srv = new CatalogService()
+                    await srv.init()
+
+                    // parameters for tested method
                     const data = [{
                         'LOGTEXT': 'Some text.',
                         'LANGU': 'GE'
                     }]
                     dateTime = '01/1/2000, 00:00:00 AM'
+
+                    // mocking method
                     chai.spy.on(CatalogService.prototype, 'randomIntFrom0to999', () => 0)
-                    let srv = new CatalogService()
-                    await srv.init()
-                    const fake = sinon.replace(srv.db, "run", sinon.fake.returns({LOG_DATE:"2022-01-01T00:00:00Z"}))
+                    // mocking db
+                    const fakeDbRun = sinon.replace(srv.db, "run", sinon.fake.returns({LOG_DATE:"2022-01-01T00:00:00Z"}))
+                    // mocking static method
+                    const fakeStaticMethod = sinon.replace(CatalogService, "randomIntFrom0to999", sinon.fake.returns(0))
 
                     ret = await CatalogService.prototype.modifyLOGTEXT.apply(srv, [data, dateTime])
 
-                    expect(fake).to.have.been.calledOnce
-                    expect(ret[0].LOGTEXT).to.eql('GE --- 2022-01-01T00:00:00Z --- Some text. --- Time now: 01/1/2000, 00:00:00 AM --- Random number: 0 --- Random fact about cats: testCatFact')
+                    expect(fakeDbRun).to.have.been.calledOnce
+                    expect(fakeStaticMethod).to.have.been.calledOnce
+                    expect(ret[0].LOGTEXT).to.eql('GE --- 2022-01-01T00:00:00Z --- ' +
+                        'Some text. --- Time now: 01/1/2000, 00:00:00 AM --- Random numbers: 0 0 --- ' +
+                        'Random fact about cats: testCatFact')
                 })
             })
 

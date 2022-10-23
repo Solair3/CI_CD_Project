@@ -40,7 +40,7 @@ class CatalogService extends cds.ApplicationService {
         const header = await this.db.run(SELECT.one `LOG_DATE` .from(Interactions_Header) .where `ID=${each.INTHeader_ID}`)
         
         each.LOGTEXT = each.LANGU + ` --- ${header?.LOG_DATE} --- ` + each.LOGTEXT + " --- Time now: " +
-            dateTime + " --- Random number: " + this.randomIntFrom0to999() +
+            dateTime + ` --- Random numbers: ${this.randomIntFrom0to999()} ${this.constructor.randomIntFrom0to999()}` +
             " --- Random fact about cats: " + this.catFact.fact
 
         return each
@@ -49,8 +49,16 @@ class CatalogService extends cds.ApplicationService {
     randomIntFrom0to999() {
         return this.getRandomInt(1000)
     }
+
+    static randomIntFrom0to999() {
+        return this.getRandomInt(1000)
+    }
     
     getRandomInt(max) {
+        return Math.floor(Math.random() * max)
+    }
+
+    static getRandomInt(max) {
         return Math.floor(Math.random() * max)
     }
     
