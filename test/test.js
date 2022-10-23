@@ -24,7 +24,8 @@ describe('Array', function () {
 })
 
 describe('CDS services', async function () {
-    const { GET, axios } = cds.test()
+    const cds_test = cds.test()
+    const { GET, axios } = cds_test
     axios.defaults.auth = { username: 'any', password: 'any' }
 
     afterEach(() => chai.spy.restore())
@@ -51,8 +52,10 @@ describe('CDS services', async function () {
                     }]
                     dateTime = '01/1/2000, 00:00:00 AM'
                     chai.spy.on(CatalogService.prototype, 'randomIntFrom0to999', () => 0)
+                    let srv = new CatalogService()
+                    await srv.init()
 
-                    ret = await CatalogService.prototype.modifyLOGTEXT(data, dateTime)
+                    ret = await CatalogService.prototype.modifyLOGTEXT.apply(srv, [data, dateTime])
 
                     expect(ret[0].LOGTEXT).to.eql('GE --- 2022-01-01T00:00:00Z --- Some text. --- Time now: 01/1/2000, 00:00:00 AM --- Random number: 0 --- Random fact about cats: testCatFact')
                 })
@@ -97,11 +100,9 @@ describe('CDS services', async function () {
 })
 
 function logAllProperties(obj) {
-    console.log("1: ", Object.getOwnPropertyNames(obj))
-
     let keys = []
     for (var key in obj) {
         keys.push(key)
     }
-    console.log("2: ", keys)
+    console.log("Found properties: ", keys)
 }
