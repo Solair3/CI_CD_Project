@@ -5,22 +5,39 @@ var request = require('request')
 
 class CatalogService extends cds.ApplicationService {
     async init() {
+        this.db = await cds.connect.to('db')
         const { Interactions_Items } = cds.entities
 
         this.on("READ", "Interactions_Items", async (req, next) => {
             let data = await next()
 
             let dateTime = new Date().toLocaleString()
-            data = await modifyLOGTEXT(data, dateTime)
+            data = await this.modifyLOGTEXT(data, dateTime)
 
             return data
         })
 
-        await super.init()
+        console.log("1: ", Object.getOwnPropertyNames(this))
+
+        let keys = []
+        for (var key in this) {
+            keys.push(key)
+        }
+        console.log("2: ", keys)
+
+        // bind all methods to this object
+        /*Object.getOwnPropertyNames(this).forEach((each) => {
+            if (typeof this[each] == 'function') {
+                console.log("binding ", each)
+                this[each] = this[each].bind(this);
+            }
+        })*/
+        //this.modifyLOGTEXT = this.modifyLOGTEXT.bind(this);
+        //this.modifyOneItem = this.modifyOneItem.bind(this);
     }
 
     async modifyLOGTEXT(data, dateTime) {
-        catFact = JSON.parse(await this.getBody('https://catfact.ninja/fact'))
+        this.catFact = JSON.parse(await this.getBody('https://catfact.ninja/fact'))
     
         if (Array.isArray(data)) {
             await Promise.all(
@@ -29,15 +46,18 @@ class CatalogService extends cds.ApplicationService {
                 })
             )
         } else {
-            data = this.modifyOneItem(data, dateTime)
+            data = await this.modifyOneItem(data, dateTime)
         }
         return data
     }
 
-    modifyOneItem(each, dateTime) {
-        each.LOGTEXT = each.LANGU + " --- " + each.LOGTEXT + " --- Time now: " +
+    async modifyOneItem(each, dateTime) {
+        const { Interactions_Header } = this.db.entities
+        const header = await this.db.run(SELECT.one `LOG_DATE` .from(Interactions_Header) .where `ID=${each.INTHeader_ID}`)
+        
+        each.LOGTEXT = each.LANGU + ` --- ${header?.LOG_DATE} --- ` + each.LOGTEXT + " --- Time now: " +
             dateTime + " --- Random number: " + this.randomIntFrom0to999() +
-            " --- Random fact about cats: " + catFact.fact
+            " --- Random fact about cats: " + this.catFact.fact
 
         return each
     }

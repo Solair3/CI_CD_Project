@@ -2,13 +2,18 @@ const chai = require('chai')
 const expect = chai.expect
 const spies = require('chai-spies')
 chai.use(spies)
+var sinon = require("sinon");
+var sinonChai = require("sinon-chai");
+chai.use(sinonChai);
 const cds = require('@sap/cds/lib')
-const CatalogService = require('../srv/interaction_srv.js').CatalogService.prototype
+const CatalogService = require('../srv/interaction_srv.js').CatalogService
 const serverMSW = require('../mocks/server.js')
 
 before('MSW: Establish API mocking before all tests.', () => serverMSW.listen({ onUnhandledRequest: 'bypass' }))
 afterEach('MSW: Reset any request handlers that we may add during the tests', () => serverMSW.resetHandlers())
 after('MSW: Clean up after the tests are finished.', () => serverMSW.close())
+afterEach(() => sinon.restore());
+
 
 describe('Array', function () {
     describe('#indexOf()', function () {
@@ -18,7 +23,7 @@ describe('Array', function () {
     })
 })
 
-describe('CDS services', function () {
+describe('CDS services', async function () {
     const { GET, axios } = cds.test()
     axios.defaults.auth = { username: 'any', password: 'any' }
 
@@ -39,17 +44,17 @@ describe('CDS services', function () {
                         'LANGU': 'GE'
                     }]
                     dateTime = '01/1/2000, 00:00:00 AM'
-                    chai.spy.on(CatalogService, 'randomIntFrom0to999', () => 0)
+                    chai.spy.on(CatalogService.prototype, 'randomIntFrom0to999', () => 0)
 
-                    ret = await CatalogService.modifyLOGTEXT(data, dateTime)
+                    ret = await CatalogService.prototype.modifyLOGTEXT(data, dateTime)
 
-                    expect(ret[0].LOGTEXT).to.eql('GE --- Some text. --- Time now: 01/1/2000, 00:00:00 AM --- Random number: 0 --- Random fact about cats: testCatFact')
+                    expect(ret[0].LOGTEXT).to.eql('GE --- 2022-01-01T00:00:00Z --- Some text. --- Time now: 01/1/2000, 00:00:00 AM --- Random number: 0 --- Random fact about cats: testCatFact')
                 })
             })
 
             describe('randomIntFrom0to999()', function () {
                 it('should return int from 0 to 999', function () {
-                    a = CatalogService.randomIntFrom0to999()
+                    a = CatalogService.prototype.randomIntFrom0to999()
 
                     expect(a).to.be.within(0, 999)
                 })
@@ -61,7 +66,7 @@ describe('CDS services', function () {
         // Now let's pretend that service cannot (or we don't want it to) connect to 
         // an external service during tests.
         // We will spy on cds.connect.to to mock external service when it is being connected to
-        (function() {
+        (function () {
             var cds_connect_to = cds.connect.to
             chai.spy.on(cds.connect, 'to', async function (nameOfModule) {
                 if (nameOfModule === 'NorthWind') {
@@ -78,10 +83,19 @@ describe('CDS services', function () {
 
             const { data, status } = await GET`/north-wind-catalog/Products/0`
 
-            console.log(data)
             expect(status).to.eql(200)
             // should be not real data but mocked one:
             expect(data).to.contain({ ID: 0, Name: 'Very tasty test bread' })
         })
     })
 })
+
+function logAllProperties(obj) {
+    console.log("1: ", Object.getOwnPropertyNames(obj))
+
+    let keys = []
+    for (var key in obj) {
+        keys.push(key)
+    }
+    console.log("2: ", keys)
+}
