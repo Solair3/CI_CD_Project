@@ -73,3 +73,11 @@ class CatalogService extends cds.ApplicationService {
 }
 
 module.exports = { CatalogService }
+
+function logAllProperties(obj) {
+    let keys = []
+    for (var key in obj) {
+        keys.push(key)
+    }
+    console.log("Found properties: ", keys)
+}
