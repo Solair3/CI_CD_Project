@@ -33,12 +33,17 @@ describe('CDS services', async function () {
     describe('CatalogService', function () {
         it('should return Interactions_Header data', async function () {
             const { data, status } = await GET`/catalog/Interactions_Header/1`
+
             expect(status).to.eql(200)
             expect(data).to.contain({ 'ID': 1 })
         })
 
         it('should return Interactions_Items data', async function () {
+            const fakeGetHanaService = sinon.replace(CatalogService, "getHanaService", sinon.fake.returns({hana:{host:"https://example.com"}}))
+
             const { data, status } = await GET`/catalog/Interactions_Items(TEXT_ID='1',INTHeader_ID=1)`
+
+            expect(fakeGetHanaService).to.have.been.calledOnce
             expect(status).to.eql(200)
             expect(data).to.contain({"INTHeader_ID":1,"TEXT_ID":"1","LANGU":"EN"})
         })

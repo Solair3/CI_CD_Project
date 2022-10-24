@@ -14,6 +14,9 @@ class CatalogService extends cds.ApplicationService {
             let dateTime = new Date().toLocaleString()
             data = await this.modifyLOGTEXT(data, dateTime)
 
+            // Just to use xsenv
+            console.log("Hana service host: ", this.constructor.getHanaService().hana.host)
+
             return data
         })
 
@@ -77,6 +80,10 @@ class CatalogService extends cds.ApplicationService {
                 }
             })
         })
+    }
+
+    static getHanaService() {
+        return xsenv.getServices({ hana: {tag: "hana"} })
     }
 }
 
