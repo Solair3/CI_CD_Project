@@ -102,7 +102,7 @@
     "app/int_items_ci_cd"
   ],
   "devDependencies": {
-    "@sap/hdi-deploy": "4.4.1",
+    "@sap/hdi-deploy": "^4.5.0",
     "@sap/ux-specification": "^1.102.5",
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
@@ -113,6 +113,6 @@
     "rimraf": "^3.0.2",
     "sinon": "^14.0.1",
     "sinon-chai": "^3.7.0",
-    "sqlite3": "latest"
+    "sqlite3": "^5.1.2"
   }
 }
