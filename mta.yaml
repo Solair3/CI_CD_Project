@@ -172,4 +172,5 @@ build-parameters:
   before-all:
     - builder: custom
       commands:
-        - npx -p @sap/cds-dk cds build --production
+        - npm install
+        - cds build --production
