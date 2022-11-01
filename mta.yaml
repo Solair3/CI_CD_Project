@@ -68,11 +68,12 @@ modules:
     type: html5
     path: app/int_items_ci_cd
     build-parameters:
+      ignore: ["node_modules/"]
       build-result: dist
       builder: custom
       commands:
         - npm install
-        - "npm run build:cf"
+        - npm run build:cf
       supported-platforms: []
   - name: ci_cd_showcase-destination-content
     type: com.sap.application.content
@@ -172,5 +173,6 @@ build-parameters:
   before-all:
     - builder: custom
       commands:
-        - npm install --omit=dev
+ #       - npm install --omit=dev
+        - npm install --production
         - cds build --production
