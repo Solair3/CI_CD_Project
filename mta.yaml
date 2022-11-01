@@ -172,5 +172,4 @@ build-parameters:
   before-all:
     - builder: custom
       commands:
-        - npm install --production
         - cds build --production
