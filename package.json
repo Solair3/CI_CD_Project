@@ -10,7 +10,7 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "@sap-cloud-sdk/http-client": "^2.9.0" ,
+    "@sap-cloud-sdk/http-client": "^2.9.0",
     "@sap/audit-logging": "^5.5.0",
     "@sap/cds": "5.4.3",
     "@sap/cds-dk": "^6.2.3",

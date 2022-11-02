@@ -174,3 +174,5 @@ build-parameters:
       commands:
         - npm install --omit=dev
         - cds build --production
+        - node -v
+        - npm -v
