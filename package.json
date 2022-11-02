@@ -6,7 +6,7 @@
   "license": "UNLICENSED",
   "private": true,
   "engines": {
-    "node": ">=14"
+    "node": "^14"
   },
   "dependencies": {
     "@sap/cds": "5.4.3",
@@ -27,7 +27,8 @@
     "deploy": "cf deploy mta_archives/archive.mtar --retries 0",
     "test": "mocha",
     "test-w": "mocha --watch",
-    "bd": "npm run b && npm run deploy"
+    "bd": "npm run b && npm run deploy",
+    "pl" : "npm i --package-lock-only"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
