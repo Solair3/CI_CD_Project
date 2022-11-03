@@ -17,8 +17,7 @@
     "request": "^2.88.2"
   },
   "engines": {
-    "npm": "^8.19.2",
-    "node": "^14.20.1"
+    "node": "^14"
   },
   "scripts": {
     "start": "cds run",
