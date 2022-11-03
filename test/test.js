@@ -39,13 +39,14 @@ describe('CDS services', async function () {
         })
 
         it('should return Interactions_Items data', async function () {
-            const fakeGetHanaService = sinon.replace(CatalogService, "getHanaService", sinon.fake.returns({hana:{host:"https://example.com"}}))
+            const fakeGetHanaService = sinon.replace(CatalogService, "getHanaService",
+                sinon.fake.returns({ hana: { host: "https://example.com" } }))
 
             const { data, status } = await GET`/catalog/Interactions_Items(TEXT_ID='1',INTHeader_ID=1)`
 
             expect(fakeGetHanaService).to.have.been.calledOnce
             expect(status).to.eql(200)
-            expect(data).to.contain({"INTHeader_ID":1,"TEXT_ID":"1","LANGU":"EN"})
+            expect(data).to.contain({ "INTHeader_ID": 1, "TEXT_ID": "1", "LANGU": "EN" })
         })
 
         describe('handler of service', function () {
@@ -58,22 +59,22 @@ describe('CDS services', async function () {
                     const data = [{
                         'LOGTEXT': 'Some text.',
                         'LANGU': 'GE',
-                        'INTHeader_ID':1,
-                        'TEXT_ID':'1'
+                        'INTHeader_ID': 1,
+                        'TEXT_ID': '1'
                     }]
                     dateTime = '01/1/2000, 00:00:00 AM'
 
                     // mocking method
                     chai.spy.on(CatalogService.prototype, 'randomIntFrom0to999', () => 0)
                     // mocking db
-                    const fakeDbRun = sinon.replace(srv.db, "run", sinon.fake.returns({LOG_DATE:"2022-01-01T00:00:00Z"}))
+                    const fakeDbRun = sinon.replace(srv.db, "run", sinon.fake.returns({ LOG_DATE: "2022-01-01T00:00:00Z" }))
                     // mocking static method
                     const fakeStaticMethod = sinon.replace(CatalogService, "randomIntFrom0to999", sinon.fake.returns(0))
 
                     ret = await CatalogService.prototype.modifyLOGTEXT.apply(srv, [data, dateTime])
 
                     expect(fakeDbRun).to.have.been.calledOnce
-                    expect(fakeDbRun).to.have.been.calledWith(SELECT.one `LOG_DATE` .from('app.interactions.Interactions_Header') .where `ID=1`)
+                    expect(fakeDbRun).to.have.been.calledWith(SELECT.one`LOG_DATE`.from('app.interactions.Interactions_Header').where`ID=1`)
                     expect(fakeStaticMethod).to.have.been.calledOnce
                     expect(ret[0].LOGTEXT).to.eql('GE --- 2022-01-01T00:00:00Z --- ' +
                         'Some text. --- Time now: 01/1/2000, 00:00:00 AM --- Random numbers: 0 0 --- ' +
