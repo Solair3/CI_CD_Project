@@ -29,7 +29,7 @@ modules:
           srv-url: "${default-url}"
     parameters:
       disk-quota: 512M
-      memory: 512M
+      memory: 715M
       buildpack: nodejs_buildpack
     build-parameters:
 #      builder: npm-ci
