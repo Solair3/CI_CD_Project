@@ -19,7 +19,6 @@ modules:
       buildpack: nodejs_buildpack
     build-parameters:
 #      builder: npm-ci
-      ignore: ["node_modules/"]
       builder: custom
       commands:
         - echo "CAP back-end is built. No extra commands are needed."
