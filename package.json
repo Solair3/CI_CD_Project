@@ -28,7 +28,8 @@
     "deploy": "cf deploy mta_archives/archive.mtar --retries 0",
     "test": "mocha",
     "test-w": "mocha --watch",
-    "bd": "npm run b && npm run deploy"
+    "bd": "npm run b && npm run deploy",
+    "pl": "npm i --package-lock-only"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
@@ -106,6 +107,7 @@
     "chai-as-promised": "^7.1.1",
     "chai-spies": "^1.0.0",
     "chai-subset": "^1.6.0",
+    "mbt": "^1.2.18",
     "mocha": "^10.0.0",
     "msw": "~0.36",
     "rimraf": "^3.0.2",
