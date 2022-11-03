@@ -9,6 +9,7 @@
     "node": "^14"
   },
   "dependencies": {
+    "@sap-cloud-sdk/http-client": "^2.9.0",
     "@sap/audit-logging": "^5.5.5",
     "@sap/cds": "^6",
     "@sap/cds-dk": "^6.2.3",
@@ -18,6 +19,7 @@
     "express": "^4",
     "hdb": "^0.19.0",
     "passport": "^0.6.0",
+    "@sap/hdi": "^4.4.0",
     "request": "^2.88.2"
   },
   "scripts": {
