@@ -175,4 +175,4 @@ build-parameters:
     - builder: custom
       commands:
         - npm install --production
-        - cds build --production
+        - cds build --production 

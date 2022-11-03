@@ -14,7 +14,6 @@ afterEach('MSW: Reset any request handlers that we may add during the tests', ()
 after('MSW: Clean up after the tests are finished.', () => serverMSW.close())
 afterEach(() => sinon.restore());
 
-
 describe('Array', function () {
     describe('#indexOf()', function () {
         it('should return -1 when the value is not present', function () {
