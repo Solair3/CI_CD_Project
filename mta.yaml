@@ -16,10 +16,8 @@ modules:
           srv-url: "${default-url}"
     parameters:
       disk-quota: 512M
-      memory: 128M
+      memory: 1024M
       buildpack: nodejs_buildpack
-    build-parameters:
-      builder: npm-ci
   - name: ci_cd_showcase-db-deployer
     type: hdb
     path: db
@@ -172,4 +170,6 @@ build-parameters:
   before-all:
     - builder: custom
       commands:
-        - npx -p @sap/cds-dk cds build --production
+        - npm i --production
+        - cds build --production
+        # - npx -p @sap/cds-dk cds build --production
