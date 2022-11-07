@@ -18,7 +18,9 @@ afterEach(() => sinon.restore());
 describe('Array', function () {
     describe('#indexOf()', function () {
         it('should return -1 when the value is not present', function () {
-            expect([1, 2, 3].indexOf(4)).to.equal(-1)
+            result = [1, 2, 3].indexOf(4)
+
+            expect(result).to.equal(-1)
         })
     })
 })
@@ -74,7 +76,8 @@ describe('CDS services', async function () {
                     ret = await CatalogService.prototype.modifyLOGTEXT.apply(srv, [data, dateTime])
 
                     expect(fakeDbRun).to.have.been.calledOnce
-                    expect(fakeDbRun).to.have.been.calledWith(SELECT.one`LOG_DATE`.from('app.interactions.Interactions_Header').where`ID=1`)
+                    expect(fakeDbRun).to.have.been.calledWith(SELECT.one`LOG_DATE`
+                        .from('app.interactions.Interactions_Header').where`ID=1`)
                     expect(fakeStaticMethod).to.have.been.calledOnce
                     expect(ret[0].LOGTEXT).to.eql('GE --- 2022-01-01T00:00:00Z --- ' +
                         'Some text. --- Time now: 01/1/2000, 00:00:00 AM --- Random numbers: 0 0 --- ' +
