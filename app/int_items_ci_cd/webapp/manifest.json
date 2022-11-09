@@ -11,16 +11,25 @@
         "description": "{{appDescription}}",
         "resources": "resources.json",
         "sourceTemplate": {
-            "id": "@sap/generator-fiori:worklist",
-            "version": "1.7.3",
-            "toolsId": "1014674a-11a1-490b-bf69-2f0e1d053eae"
+            "id": "@sap/generator-fiori:lrop",
+            "version": "1.7.1",
+            "toolsId": "a3895f89-9355-4467-863c-e160639a6855"
         },
         "dataSources": {
+            "annotation": {
+                "settings": {
+                    "localUri": "annotations/annotation.xml"
+                },
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation.xml"
+            },
             "mainService": {
                 "uri": "/catalog/",
                 "type": "OData",
                 "settings": {
-                    "annotations": [],
+                    "annotations": [
+                        "annotation"
+                    ],
                     "localUri": "localService/metadata.xml",
                     "odataVersion": "4.0"
                 }
@@ -34,8 +43,8 @@
                         "additionalParameters": "allowed"
                     },
                     "semanticObject": "Item",
-                    "action": "show",
-                    "title": "CI/CD Showcase",
+                    "action": "manage",
+                    "title": "{{flpTitle}}",
                     "subTitle": "{{flpSubtitle}}",
                     "icon": ""
                 }
@@ -61,7 +70,7 @@
     "sap.ui5": {
         "flexEnabled": true,
         "dependencies": {
-            "minUI5Version": "1.102.1",
+            "minUI5Version": "1.102.6",
             "libs": {
                 "sap.m": {},
                 "sap.ui.core": {},
@@ -70,7 +79,8 @@
                 "sap.ui.comp": {},
                 "sap.ui.generic.app": {},
                 "sap.ui.table": {},
-                "sap.ushell": {}
+                "sap.ushell": {},
+                "sap.fe.templates": {}
             }
         },
         "contentDensities": {
@@ -100,59 +110,68 @@
         },
         "routing": {
             "config": {
-                "routerClass": "sap.m.routing.Router",
-                "viewType": "XML",
-                "viewPath": "intitemscicd.view",
-                "controlId": "app",
-                "controlAggregation": "pages",
-                "bypassed": {
-                    "target": [
-                        "notFound"
-                    ]
-                },
-                "async": true
+                "routerClass": "sap.f.routing.Router",
+                "flexibleColumnLayout": {
+                    "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded",
+                    "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded"
+                }
             },
             "routes": [
                 {
-                    "pattern": "",
+                    "pattern": ":?query:",
                     "name": "worklist",
                     "target": [
                         "worklist"
                     ]
                 },
                 {
-                    "pattern": "Interactions_Items/{objectId}",
+                    "pattern": "Interactions_Items({key}):?query:",
                     "name": "object",
                     "target": [
-                        "object"
+                        "object",
+                        "worklist"
                     ]
                 }
             ],
             "targets": {
                 "worklist": {
-                    "viewName": "Worklist",
-                    "viewId": "worklist",
-                    "viewLevel": 1,
-                    "title": "{i18n>worklistViewTitle}"
+                    "contextPattern": "",
+                    "controlAggregation": "beginColumnPages",
+                    "id": "worklist",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "entitySet": "Interactions_Items",
+                            "initialLoad": "Enabled",
+                            "navigation": {
+                                "Interactions_Items": {
+                                    "detail": {
+                                        "route": "object"
+                                    }
+                                }
+                            },
+                            "variantManagement": "Page"
+                        }
+                    },
+                    "type": "Component"
                 },
                 "object": {
-                    "viewName": "Object",
-                    "viewId": "object",
-                    "viewLevel": 2,
-                    "title": "{i18n>objectViewTitle}"
-                },
-                "objectNotFound": {
-                    "viewName": "ObjectNotFound",
-                    "viewId": "objectNotFound"
-                },
-                "notFound": {
-                    "viewName": "NotFound",
-                    "viewId": "notFound"
+                    "contextPattern": "/Interactions_Items({key})",
+                    "controlAggregation": "midColumnPages",
+                    "id": "object",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "entitySet": "Interactions_Items"
+                        }
+                    },
+                    "type": "Component"
                 }
             }
         },
         "rootView": {
-            "viewName": "intitemscicd.view.App",
+            "viewName": "sap.fe.templates.RootContainer.view.Fcl",
             "type": "XML",
             "async": true,
             "id": "app"
