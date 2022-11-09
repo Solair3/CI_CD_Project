@@ -28,7 +28,8 @@
     "deploy": "cf deploy mta_archives/archive.mtar --retries 0",
     "test": "mocha",
     "test-w": "mocha --watch",
-    "bd": "npm run b && npm run deploy"
+    "bd": "npm run b && npm run deploy",
+    "watch-items": "cds watch --open items/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
@@ -97,11 +98,12 @@
     }
   },
   "sapux": [
-    "app/int_items_ci_cd"
+    "app/int_items_ci_cd",
+    "app/items"
   ],
   "devDependencies": {
     "@sap/hdi-deploy": "^4.5.0",
-    "@sap/ux-specification": "^1.102.5",
+    "@sap/ux-specification": "^1.102.11",
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
     "chai-spies": "^1.0.0",
