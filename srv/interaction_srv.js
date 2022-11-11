@@ -25,7 +25,7 @@ class CatalogService extends cds.ApplicationService {
 
     async modifyLOGTEXT(data, dateTime) {
         this.catFact = JSON.parse(await this.getBody('https://catfact.ninja/fact'))
-    
+
         if (Array.isArray(data)) {
             await Promise.all(
                 data.map(async (each) => {
@@ -40,15 +40,15 @@ class CatalogService extends cds.ApplicationService {
 
     async modifyOneItem(each, dateTime) {
         const { Interactions_Header } = this.db.entities
-        const header = await this.db.run(SELECT.one `LOG_DATE` .from(Interactions_Header) .where `ID=${each.INTHeader_ID}`)
-        
+        const header = await this.db.run(SELECT.one`LOG_DATE`.from(Interactions_Header).where`ID=${each.INTHeader_ID}`)
+
         each.LOGTEXT = each.LANGU + ` --- ${header?.LOG_DATE} --- ` + each.LOGTEXT + " --- Time now: " +
             dateTime + ` --- Random numbers: ${this.randomIntFrom0to999()} ${this.constructor.randomIntFrom0to999()}` +
             " --- Random fact about cats: " + this.catFact.fact
 
         return each
     }
-    
+
     randomIntFrom0to999() {
         return this.getRandomInt(1000)
     }
@@ -56,7 +56,7 @@ class CatalogService extends cds.ApplicationService {
     static randomIntFrom0to999() {
         return this.getRandomInt(1000)
     }
-    
+
     getRandomInt(max) {
         return Math.floor(Math.random() * max)
     }
@@ -64,13 +64,13 @@ class CatalogService extends cds.ApplicationService {
     static getRandomInt(max) {
         return Math.floor(Math.random() * max)
     }
-    
+
     async getBody(url) {
         const options = {
             url: url,
             method: 'GET',
         };
-    
+
         return new Promise(function (resolve, reject) {
             request.get(options, function (err, resp, body) {
                 if (err) {
@@ -83,7 +83,7 @@ class CatalogService extends cds.ApplicationService {
     }
 
     static getHanaService() {
-        return xsenv.getServices({ hana: {tag: "hana"} })
+        return xsenv.getServices({ hana: { tag: "hana" } })
     }
 }
 
