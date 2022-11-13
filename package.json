@@ -1,116 +1,118 @@
 {
-  "name": "ci_cd_showcase",
-  "version": "1.0.0",
-  "description": "A simple CAP project.",
-  "repository": "<Add your repository here>",
-  "license": "UNLICENSED",
-  "private": true,
-  "engines": {
-    "node": "^14"
-  },
-  "dependencies": {
-    "@sap/cds": "5.9.8",
-    "@sap/cds-dk": "^6.2.3",
-    "@sap/hana-client": "^2.8.20",
-    "@sap/hdi": "^4.4.0",
-    "@sap/xsenv": "^3.1.0",
-    "@sap/xssec": "^3.2.1",
-    "express": "^4",
-    "passport": "^0.6.0",
-    "request": "^2.88.2"
-  },
-  "scripts": {
-    "start": "cds run",
-    "watch-int_items_ci_cd": "cds watch --open int_items_ci_cd/webapp/index.html?sap-ui-xx-viewCache=false",
-    "undeploy": "cf undeploy ci_cd_showcase --delete-services --delete-service-keys --delete-service-brokers",
-    "build": "rimraf resources mta_archives && mbt build --mtar archive",
-    "b": "npm run test && npm run build",
-    "deploy": "cf deploy mta_archives/archive.mtar --retries 0",
-    "test": "mocha",
-    "test-w": "mocha --watch",
-    "bd": "npm run b && npm run deploy"
-  },
-  "eslintConfig": {
-    "extends": "eslint:recommended",
-    "env": {
-      "es2020": true,
-      "node": true,
-      "jest": true,
-      "mocha": true
+    "name": "ci_cd_showcase",
+    "version": "1.0.0",
+    "description": "A simple CAP project.",
+    "repository": "<Add your repository here>",
+    "license": "UNLICENSED",
+    "private": true,
+    "engines": {
+        "node": "^14"
     },
-    "globals": {
-      "SELECT": true,
-      "INSERT": true,
-      "UPDATE": true,
-      "DELETE": true,
-      "CREATE": true,
-      "DROP": true,
-      "CDL": true,
-      "CQL": true,
-      "CXL": true,
-      "cds": true
+    "dependencies": {
+        "@sap/cds": "5.9.8",
+        "@sap/cds-dk": "^6.2.3",
+        "@sap/hana-client": "^2.8.20",
+        "@sap/hdi": "^4.4.0",
+        "@sap/xsenv": "^3.1.0",
+        "@sap/xssec": "^3.2.1",
+        "express": "^4",
+        "passport": "^0.6.0",
+        "request": "^2.88.2"
     },
-    "rules": {
-      "no-console": "off",
-      "require-atomic-updates": "off"
-    }
-  },
-  "cds": {
-    "build": {
-      "tasks": [
-        {
-          "for": "hana",
-          "dest": "../db"
+    "scripts": {
+        "start": "cds run",
+        "watch-int_items_ci_cd": "cds watch --open int_items_ci_cd/webapp/index.html?sap-ui-xx-viewCache=false",
+        "undeploy": "cf undeploy ci_cd_showcase --delete-services --delete-service-keys --delete-service-brokers",
+        "build": "rimraf resources mta_archives && mbt build --mtar archive",
+        "b": "npm run test && npm run build",
+        "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
+        "test": "mocha",
+        "test-w": "mocha --watch",
+        "bd": "npm run b && npm run deploy",
+        "watch-interaction_items": "cds watch --open interaction_items/webapp/index.html?sap-ui-xx-viewCache=false"
+    },
+    "eslintConfig": {
+        "extends": "eslint:recommended",
+        "env": {
+            "es2020": true,
+            "node": true,
+            "jest": true,
+            "mocha": true
         },
-        {
-          "for": "node-cf"
-        }
-      ]
-    },
-    "requires": {
-      "db": {
-        "[development]": {
-          "kind": "sql"
+        "globals": {
+            "SELECT": true,
+            "INSERT": true,
+            "UPDATE": true,
+            "DELETE": true,
+            "CREATE": true,
+            "DROP": true,
+            "CDL": true,
+            "CQL": true,
+            "CXL": true,
+            "cds": true
         },
-        "[production]": {
-          "kind": "hana-cloud"
+        "rules": {
+            "no-console": "off",
+            "require-atomic-updates": "off"
         }
-      },
-      "uaa": {
-        "kind": "xsuaa"
-      },
-      "NorthWind": {
-        "kind": "odata",
-        "model": "srv/external/NorthWind",
-        "credentials": {
-          "[production]": {
-            "destination": "NorthWind"
-          },
-          "[development]": {
-            "url": "https://services.odata.org/Experimental/OData/OData.svc"
-          }
-        }
-      }
     },
-    "hana": {
-      "deploy-format": "hdbtable"
+    "cds": {
+        "build": {
+            "tasks": [
+                {
+                    "for": "hana",
+                    "dest": "../db"
+                },
+                {
+                    "for": "node-cf"
+                }
+            ]
+        },
+        "requires": {
+            "db": {
+                "[development]": {
+                    "kind": "sql"
+                },
+                "[production]": {
+                    "kind": "hana-cloud"
+                }
+            },
+            "uaa": {
+                "kind": "xsuaa"
+            },
+            "NorthWind": {
+                "kind": "odata",
+                "model": "srv/external/NorthWind",
+                "credentials": {
+                    "[production]": {
+                        "destination": "NorthWind"
+                    },
+                    "[development]": {
+                        "url": "https://services.odata.org/Experimental/OData/OData.svc"
+                    }
+                }
+            }
+        },
+        "hana": {
+            "deploy-format": "hdbtable"
+        }
+    },
+    "sapux": [
+        "app/int_items_ci_cd",
+        "app/interaction_items"
+    ],
+    "devDependencies": {
+        "@sap/hdi-deploy": "^4.5.0",
+        "@sap/ux-specification": "^1.102.12",
+        "chai": "^4.3.6",
+        "chai-as-promised": "^7.1.1",
+        "chai-spies": "^1.0.0",
+        "chai-subset": "^1.6.0",
+        "mocha": "^10.0.0",
+        "msw": "~0.36",
+        "rimraf": "^3.0.2",
+        "sinon": "^14.0.1",
+        "sinon-chai": "^3.7.0",
+        "sqlite3": "^5.1.2"
     }
-  },
-  "sapux": [
-    "app/int_items_ci_cd"
-  ],
-  "devDependencies": {
-    "@sap/hdi-deploy": "^4.5.0",
-    "@sap/ux-specification": "^1.102.5",
-    "chai": "^4.3.6",
-    "chai-as-promised": "^7.1.1",
-    "chai-spies": "^1.0.0",
-    "chai-subset": "^1.6.0",
-    "mocha": "^10.0.0",
-    "msw": "~0.36",
-    "rimraf": "^3.0.2",
-    "sinon": "^14.0.1",
-    "sinon-chai": "^3.7.0",
-    "sqlite3": "^5.1.2"
-  }
 }
