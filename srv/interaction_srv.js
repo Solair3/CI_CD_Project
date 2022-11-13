@@ -42,7 +42,7 @@ class CatalogService extends cds.ApplicationService {
         const { Interactions_Header } = this.db.entities
         const header = await this.db.run(SELECT.one `LOG_DATE` .from(Interactions_Header) .where `ID=${each.INTHeader_ID}`)
         
-        each.LOGTEXT = ` --- ${header?.LOG_DATE} --- ` + each.LOGTEXT + " --- Time now: " +
+        each.LOGTEXT = each.LANGU + ` --- ${header?.LOG_DATE} --- ` + each.LOGTEXT + " --- Time now: " +
             dateTime + ` --- Random numbers: ${this.randomIntFrom0to999()} ${this.constructor.randomIntFrom0to999()}` +
             " --- Random fact about cats: " + this.catFact.fact
 
