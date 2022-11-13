@@ -34,3 +34,8 @@ Makefile_*.mta
 db/.env
 # auto generated wildcard
 .env1
+app/int_items_ci_cd/dist/intitemscicd.zip
+app/int_items_ci_cd/dist/manifest-bundle.zip
+app/int_items_ci_cd/dist/sap-ui-cachebuster-info.json
+app/int_items_ci_cd/dist/resources/sap-ui-version.json
+resources/intitemscicd.zip
