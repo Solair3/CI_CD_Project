@@ -29,7 +29,8 @@
     "test": "mocha",
     "test-w": "mocha --watch",
     "bd": "npm run b && npm run deploy",
-    "watch-items": "cds watch --open items/webapp/index.html?sap-ui-xx-viewCache=false"
+    "watch-items": "cds watch --open items/webapp/index.html?sap-ui-xx-viewCache=false",
+    "h": "cds watch --profile hybrid"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",

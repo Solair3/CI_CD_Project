@@ -66,6 +66,10 @@ modules:
             - intitemscicd.zip
           name: intitemscicd
           target-path: resources/
+        - artifacts:
+            - items.zip
+          name: items
+          target-path: resources/
   - name: intitemscicd
     type: html5
     path: app/int_items_ci_cd
@@ -75,6 +79,16 @@ modules:
       commands:
         - npm install
         - 'npm run build:cf'
+      supported-platforms: []
+  - name: items
+    type: html5
+    path: .
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+      - npm install
+      - npm run build:cf
       supported-platforms: []
   - name: ci_cd_showcase-destination-content
     type: com.sap.application.content
