@@ -82,13 +82,13 @@ modules:
       supported-platforms: []
   - name: items
     type: html5
-    path: .
+    path: app/items
     build-parameters:
       build-result: dist
       builder: custom
       commands:
       - npm install
-      - npm run build:cf
+      - 'npm run build:cf'
       supported-platforms: []
   - name: ci_cd_showcase-destination-content
     type: com.sap.application.content
